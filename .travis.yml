@@ -1,6 +1,7 @@
 nguage: ruby
 rvm:
   - 2.2.0
+  - 2.2.1
 install: bundle install
 cache:
   directories:
