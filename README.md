@@ -133,6 +133,24 @@ But, if same data importing (no change), version is not updated.
 Also, having assosiation and updating child association, parent version is updated.
 Furthermore, when version is updated, version number is that obtained by adding 1 to the highest number in all data before the update
 
+### csv supporting
+csv file format is supported. if you want to use relational structure, please define same row and column name should be dotted
+And if relational data is `has_many` structure, please put the serial number before the dot
+ex:
+csv file
+```
+id,name,item_effects1.value,item_effects2.value,item_effects3.value
+1,hoge,1,2,3
+2,huga,1,2,3
+3,piyo,1,2,3
+```
+table showing
+| id        | name           | item_effects1.value  | item_effects2.value | item_effects3.value |
+| ------------- | ------------- | ------------- | ------------- | ------------- | 
+| 1      | hoge  | 1 | 2 | 3 |
+| 2      | huga  | 1 | 2 | 3 |
+| 3      | piyo  | 1 | 2 | 3 |
+
 ## Note that
 
 * If id does not exist json's attributes, new record will be created. As long as it does not want this thing , always please do put the id.
