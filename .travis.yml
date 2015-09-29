@@ -1,0 +1,8 @@
+nguage: ruby
+rvm:
+  - 2.2.0
+install: bundle install
+cache:
+  directories:
+  - vendor/bundle
+script: bundle exec rspec spec
