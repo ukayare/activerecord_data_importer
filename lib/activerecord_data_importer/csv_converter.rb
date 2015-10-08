@@ -1,7 +1,7 @@
 require "csv"
 class ActiverecordDataImporter::CsvConverter
   def self.convert_csv_to_hash(filename)
-    csvs = CSV.table(filename, header_converters: lambda { |h| h.underscore })
+    csvs = CSV.open(filename, "rb:BOM|UTF-8", headers: true, header_converters: lambda { |h| h.underscore } ).read
     hash = csvs.map do |csv|
       self.convert_attributes csv.to_h
     end
