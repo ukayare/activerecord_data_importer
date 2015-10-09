@@ -74,6 +74,8 @@ module ActiverecordDataImporter
     self_attributes, another_attributes = self.class.divide_attributes row_data
     origin_updated = self.update_origin self_attributes, latest_version
     return origin_updated if another_attributes.blank?
+    relation_attributes = self.class.divide_relation_key another_attributes
+    return origin_updated if relation_attributes.blank?
     relation_updated = self.update_relation another_attributes
     if (!origin_updated && relation_updated)
       self.update_with_version latest_version
@@ -91,15 +93,15 @@ module ActiverecordDataImporter
     true
   end
 
-  def update_relation(another_attributes)
+  def update_relation(all_relation_attributes)
     latest_version = self.class.get_latest_version
-    self.class.divide_relation_key(another_attributes).select do |key, value|
-    case value
-    when Hash
-      relation_instance = self.try(key) || self.try("build_#{key}")
-      relation_instance.update_row_data value, latest_version
-    when Array
-      relation_instances = self.try(key).to_a
+    all_relation_attributes.select do |key, value|
+      case value
+      when Hash
+        relation_instance = self.try(key) || self.try("build_#{key}")
+        relation_instance.update_row_data value, latest_version
+      when Array
+        relation_instances = self.try(key).to_a
         updated_flag = false
         value.each_with_index do |relation_attributes, i|
           relation_instance = relation_instances[i] || self.try(key).build
